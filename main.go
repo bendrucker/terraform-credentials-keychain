@@ -1,44 +1,28 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/bendrucker/terraform-credentials-keychain/credentialhelper"
+)
+
+const (
+	version = "dev"
 )
 
 func main() {
-	var help bool
+	helper := new(KeychainHelper)
+	cli := credentialhelper.New("terraform-credentials-keychain", version, helper, nil)
 
-	flags := flag.NewFlagSet("helper", flag.ContinueOnError)
-	flags.BoolVar(&help, "help", false, "print the help text")
-
-	if err := flags.Parse(os.Args[1:]); err != nil {
-		fail(err.Error())
+	status, err := cli.Run(os.Args[1:])
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
 	}
+	os.Exit(status)
 
-	if help {
-		fmt.Println(helpText())
-		return
-	}
-
-	if flags.NArg() != 2 {
-		fmt.Fprintln(os.Stderr, helpText())
-		os.Exit(1)
-		return
-	}
-
-	command := flags.Arg(0)
-	hostname := flags.Arg(1)
-
-	switch command {
-	case "get":
-		Get(hostname)
-	case "store":
-		Store(hostname, "")
-	case "forget":
-		Forget(hostname)
-	}
+	return
 }
 
 func fail(message string) {

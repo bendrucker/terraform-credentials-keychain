@@ -6,7 +6,9 @@ import (
 	"github.com/zalando/go-keyring"
 )
 
-func Get(hostname string) (string, error) {
+type KeychainHelper struct{}
+
+func (h *KeychainHelper) Get(hostname string) (string, error) {
 	user, err := user.Current()
 	if err != nil {
 		return "", err
@@ -20,7 +22,7 @@ func Get(hostname string) (string, error) {
 	return secret, nil
 }
 
-func Store(hostname string, credentials string) error {
+func (h *KeychainHelper) Store(hostname string, credentials string) error {
 	user, err := user.Current()
 	if err != nil {
 		return err
@@ -29,7 +31,7 @@ func Store(hostname string, credentials string) error {
 	return keyring.Set(hostname, user.Username, credentials)
 }
 
-func Forget(hostname string) error {
+func (h *KeychainHelper) Forget(hostname string) error {
 	user, err := user.Current()
 	if err != nil {
 		return err
