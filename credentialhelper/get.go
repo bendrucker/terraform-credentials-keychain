@@ -15,7 +15,7 @@ func (c *getCommand) Run(args []string) int {
 		c.Error(fmt.Sprintf("error getting credentials: %v", err))
 	}
 
-	fmt.Println(creds)
+	fmt.Println(string(creds))
 	return 0
 }
 

@@ -1,41 +1,49 @@
 package main
 
 import (
-	"os/user"
+	"fmt"
 
-	"github.com/zalando/go-keyring"
+	"github.com/99designs/keyring"
 )
 
 type KeychainHelper struct{}
 
-func (h *KeychainHelper) Get(hostname string) (string, error) {
-	user, err := user.Current()
-	if err != nil {
-		return "", err
-	}
-
-	secret, err := keyring.Get(hostname, user.Username)
-	if err != nil {
-		return "", err
-	}
-
-	return secret, nil
+func (h *KeychainHelper) Open() (keyring.Keyring, error) {
+	return keyring.Open(keyring.Config{ServiceName: "terraform"})
 }
 
-func (h *KeychainHelper) Store(hostname string, credentials string) error {
-	user, err := user.Current()
+func (h *KeychainHelper) Get(hostname string) ([]byte, error) {
+	ring, err := h.Open()
+	if err != nil {
+		return nil, err
+	}
+
+	item, err := ring.Get(hostname)
+	if err != nil {
+		return nil, err
+	}
+
+	return item.Data, nil
+}
+
+func (h *KeychainHelper) Store(hostname string, credentials []byte) error {
+	ring, err := h.Open()
 	if err != nil {
 		return err
 	}
 
-	return keyring.Set(hostname, user.Username, credentials)
+	return ring.Set(keyring.Item{
+		Key:         hostname,
+		Data:        credentials,
+		Description: fmt.Sprintf("Terraform Cloud API credentials for %s, created via 'terraform login'", hostname),
+	})
 }
 
 func (h *KeychainHelper) Forget(hostname string) error {
-	user, err := user.Current()
+	ring, err := h.Open()
 	if err != nil {
 		return err
 	}
 
-	return keyring.Delete(hostname, user.Username)
+	return ring.Remove(hostname)
 }

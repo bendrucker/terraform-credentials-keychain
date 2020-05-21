@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/bendrucker/terraform-credentials-keychain/credentialhelper"
 )
@@ -23,15 +22,4 @@ func main() {
 	os.Exit(status)
 
 	return
-}
-
-func fail(message string) {
-	fmt.Fprintln(os.Stderr, message)
-	os.Exit(1)
-}
-
-func helpText() string {
-	return strings.TrimSpace(`
-terraform-credentials-keychain
-	`)
 }
