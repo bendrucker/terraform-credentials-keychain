@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/bendrucker/terraform-credentials-keychain/credentialhelper"
+	credentialhelper "github.com/bendrucker/terraform-credential-helper-sdk"
 )
 
 const (
