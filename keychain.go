@@ -34,6 +34,7 @@ func (h *KeychainHelper) Store(hostname string, credentials []byte) error {
 
 	return ring.Set(keyring.Item{
 		Key:         hostname,
+		Label:       hostname,
 		Data:        credentials,
 		Description: fmt.Sprintf("Terraform Cloud API credentials for %s, created via 'terraform login'", hostname),
 	})
