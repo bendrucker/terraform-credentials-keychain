@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 
 	"github.com/99designs/keyring"
 	credentialhelper "github.com/bendrucker/terraform-credential-helper-sdk"
@@ -45,7 +44,7 @@ func (h *KeychainHelper) Store(hostname string, credentials []byte, flags *flag.
 		Key:         hostname,
 		Label:       hostname,
 		Data:        credentials,
-		Description: fmt.Sprintf("Terraform Cloud API credentials for %s, created via 'terraform login'", hostname),
+		Description: "application password",
 	})
 }
 
