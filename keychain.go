@@ -15,7 +15,9 @@ var _ credentialhelper.Helper = (*KeychainHelper)(nil)
 
 // Open opens a keyring for Terraform
 func (h *KeychainHelper) Open() (keyring.Keyring, error) {
-	return keyring.Open(keyring.Config{ServiceName: "terraform"})
+	return keyring.Open(keyring.Config{
+		ServiceName: "terraform",
+	})
 }
 
 // Get gets the stored credentials from the keyring

@@ -1,0 +1,25 @@
+builds:
+  - id: default
+    goos:
+      - linux
+      - windows
+    goarch:
+      - amd64
+  - id: macos
+    goos:
+      - darwin
+    goarch:
+      - amd64
+    hooks:
+      post: ./gon.sh {{.Path}} {{dir (dir .Path)}}/{{.ProjectName}}_{{.Version}}_{{.Target}}.zip
+archives:
+  - builds:
+      - default
+    format_overrides:
+      - goos: windows
+        format: zip
+release:
+  ids:
+    - none
+  extra_files:
+    - glob: ./dist/*_darwin_amd64.zip
