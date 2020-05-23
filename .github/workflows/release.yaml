@@ -5,7 +5,7 @@ on:
 name: release
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - name: Install Go
       uses: actions/setup-go@v1
@@ -15,6 +15,10 @@ jobs:
       uses: actions/checkout@v2
     - name: Unshallow
       run: git fetch --prune --unshallow
+    - name: Install gon
+      run: |-
+        brew tap mitchellh/gon
+        brew install mitchellh/gon/gon
     - name: goreleaser
       uses: goreleaser/goreleaser-action@v1
       with:
