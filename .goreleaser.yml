@@ -20,6 +20,6 @@ archives:
         format: zip
 release:
   ids:
-    - none
+    - default
   extra_files:
     - glob: ./dist/*_darwin_amd64.zip
