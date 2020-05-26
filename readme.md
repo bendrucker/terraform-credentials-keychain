@@ -4,7 +4,7 @@
 
 By default, `terraform login` writes your Terraform Cloud credentials (i.e. API token) as a plain text file in your home directory. Any program you run can read this file, potentially stealing your credentials. 
 
-With this credential helper installed, your credentials will instead be stored in the system keychain. 
+With this credential helper installed, your credentials will instead be stored in the system keychain. This helper uses [99designs/keyring](https://github.com/99designs/keyring) and can use any credential storage backend it supports. Currently, only macOS is actively tested.
 
 ## Installing
 
@@ -33,3 +33,25 @@ Now when you use `terraform login` and `terraform logout`, they will use your sy
 [![asciicast](https://asciinema.org/a/334212.svg)](https://asciinema.org/a/334212)
 
 Each time you run a `terraform` command that uses your credentials (e.g. `init`, `plan`, `apply`, etc.), the credential helper will read your credentials from the keychain, prompting for a password if needed.
+
+## Security
+
+Any command that requires Terraform Cloud credentials, including most `terraform` commands, will prompt for the keychain password:
+
+![keychain prompt](keychain.png)
+
+For maximum security, click "Allow" and enter your password every time it is required by Terraform or another program. If you run Terraform frequently, this may become tedious. If you click "Always Allow," you will never be prompted for a password again. Your credentials will still be protected from a malicious program scanning your disk, but a program that calls `terraform-credentials-keychain get <host>` will still be able to obtain them. If you choose this option, consider [configuring your keychain to lock after a period of inactivity](https://support.apple.com/guide/keychain-access/mac-keychain-password-kyca1242/mac).
+
+You can also use a dedicated keychain, instead of the default "login" keychain:
+
+```hcl
+credentials_helper "keychain" {
+  args = ["--keychain=terraform"]
+}
+```
+
+After adding your credentials, you can open Keychain Access to edit the keychain's auto-lock settings:
+
+```sh
+open ~/Library/Keychains/terraform.keychain-db
+```
