@@ -28,6 +28,6 @@ credentials_helper "keychain" {}
 
 Now when you use `terraform login` and `terraform logout`, they will use your system keychain rather than persisting credentials directly to disk!
 
-![](demo.svg)
+[![asciicast](https://asciinema.org/a/334212.svg)](https://asciinema.org/a/334212)
 
 Each time you run a `terraform` command that uses your credentials (e.g. `init`, `plan`, `apply`, etc.), the credential helper will read your credentials from the keychain, prompting for a password if needed.
