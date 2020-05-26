@@ -38,7 +38,7 @@ Each time you run a `terraform` command that uses your credentials (e.g. `init`,
 
 Any command that requires Terraform Cloud credentials, including most `terraform` commands, will prompt for the keychain password:
 
-![keychain prompt](keychain.png)
+<img src="keychain.png" alt="macOS Keychain password prompt" width="434" />
 
 For maximum security, click "Allow" and enter your password every time it is required by Terraform or another program. If you run Terraform frequently, this may become tedious. If you click "Always Allow," you will never be prompted for a password again. Your credentials will still be protected from a malicious program scanning your disk, but a program that calls `terraform-credentials-keychain get <host>` will still be able to obtain them. If you choose this option, consider [configuring your keychain to lock after a period of inactivity](https://support.apple.com/guide/keychain-access/mac-keychain-password-kyca1242/mac).
 
