@@ -16,6 +16,8 @@ For example, on macOS, you should install the binary as:
 ~/.terraform.d/plugins/darwin_amd64/terraform-credentials-keychain
 ```
 
+Releases for macOS are [signed and notarized](https://developer.apple.com/developer-id/) so that the system will trust the application.
+
 ## Usage
 
 Run `terraform logout` for each Terraform host you connect to. For Terraform Cloud, you can run `terraform logout` directly. For Terraform Enterprise, supply the hostname of the Terraform Enterprise server. This will remove all plain text credentials stored in the `credentials.tfrc.json` or print an error if credential blocks are defined in `.terraformrc`. These credentials will bypass the credential helper if they are not removed. You should also revoke these API tokens from your Terraform Cloud user settings.
