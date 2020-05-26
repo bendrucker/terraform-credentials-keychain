@@ -19,6 +19,11 @@ jobs:
       run: |-
         brew tap mitchellh/gon
         brew install mitchellh/gon/gon
+    - name: Import certificates
+      uses: Apple-Actions/import-codesign-certs@v1
+      with:
+        p12-file-base64: ${{ secrets.APPLE_DEVELOPER_CERTIFICATE }}
+        p12-password: ${{ secrets.APPLE_DEVELOPER_CERTIFICATE_PASSWORD }}
     - name: goreleaser
       uses: goreleaser/goreleaser-action@v1
       with:
