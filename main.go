@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 
@@ -13,10 +12,7 @@ const (
 )
 
 func main() {
-	flags := flag.NewFlagSet("terraform-credentials-keychain", flag.ContinueOnError)
-	flags.String("keychain", "login", "The name of the macOS keychain where the credentials will be stored.")
-
-	cli := credentialhelper.New("terraform-credentials-keychain", version, new(KeychainHelper), flags)
+	cli := credentialhelper.New("terraform-credentials-keychain", version, new(KeychainHelper))
 
 	status, err := cli.Run(os.Args[1:])
 	if err != nil {

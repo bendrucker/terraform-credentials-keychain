@@ -9,21 +9,31 @@ import (
 
 // KeychainHelper implements credentialhelper.Helper and uses the system keychain for storage.
 // It supports macOS, Linux, and Windows via github.com/99designs/keyring.
-type KeychainHelper struct{}
+type KeychainHelper struct {
+	// The name of the macOS keychain where credentials will be stored
+	Keychain string
+}
 
 var _ credentialhelper.Helper = (*KeychainHelper)(nil)
 
+// Flags constructs the flags supported by the helper
+func (h *KeychainHelper) Flags() *flag.FlagSet {
+	flags := flag.NewFlagSet("terraform-credentials-keychain", flag.ContinueOnError)
+	flags.StringVar(&h.Keychain, "keychain", "login", "Name of the macOS keychain where credentials will be stored")
+	return flags
+}
+
 // Open opens a keyring for Terraform
-func (h *KeychainHelper) Open(flags *flag.FlagSet) (keyring.Keyring, error) {
+func (h *KeychainHelper) Open() (keyring.Keyring, error) {
 	return keyring.Open(keyring.Config{
 		ServiceName:  "terraform",
-		KeychainName: flags.Lookup("keychain").Value.(flag.Getter).Get().(string),
+		KeychainName: h.Keychain,
 	})
 }
 
 // Get gets the stored credentials from the keyring
-func (h *KeychainHelper) Get(hostname string, flags *flag.FlagSet) ([]byte, error) {
-	ring, err := h.Open(flags)
+func (h *KeychainHelper) Get(hostname string) ([]byte, error) {
+	ring, err := h.Open()
 	if err != nil {
 		return nil, err
 	}
@@ -37,8 +47,8 @@ func (h *KeychainHelper) Get(hostname string, flags *flag.FlagSet) ([]byte, erro
 }
 
 // Store stores new credentials in the keyring
-func (h *KeychainHelper) Store(hostname string, credentials []byte, flags *flag.FlagSet) error {
-	ring, err := h.Open(flags)
+func (h *KeychainHelper) Store(hostname string, credentials []byte) error {
+	ring, err := h.Open()
 	if err != nil {
 		return err
 	}
@@ -52,8 +62,8 @@ func (h *KeychainHelper) Store(hostname string, credentials []byte, flags *flag.
 }
 
 // Forget deletes existing credentials from the keyring
-func (h *KeychainHelper) Forget(hostname string, flags *flag.FlagSet) error {
-	ring, err := h.Open(flags)
+func (h *KeychainHelper) Forget(hostname string) error {
+	ring, err := h.Open()
 	if err != nil {
 		return err
 	}
