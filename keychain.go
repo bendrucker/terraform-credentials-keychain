@@ -12,6 +12,8 @@ import (
 type KeychainHelper struct {
 	// The name of the macOS keychain where credentials will be stored
 	Keychain string
+
+	keyring keyring.Config
 }
 
 var _ credentialhelper.Helper = (*KeychainHelper)(nil)
@@ -25,10 +27,10 @@ func (h *KeychainHelper) Flags() *flag.FlagSet {
 
 // Open opens a keyring for Terraform
 func (h *KeychainHelper) Open() (keyring.Keyring, error) {
-	return keyring.Open(keyring.Config{
-		ServiceName:  "terraform",
-		KeychainName: h.Keychain,
-	})
+	h.keyring.ServiceName = "terraform"
+	h.keyring.KeychainName = h.Keychain
+
+	return keyring.Open(h.keyring)
 }
 
 // Get gets the stored credentials from the keyring
