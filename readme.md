@@ -42,7 +42,7 @@ Any command that requires Terraform Cloud credentials, including most `terraform
 
 For maximum security, click _Allow_ and enter your password every time it is required by Terraform or another program. If you run Terraform frequently, this may become tedious. If you click _Always Allow_, you will never be prompted for a password again. Your credentials will still be protected from a malicious program scanning your disk, but a program that calls `terraform-credentials-keychain get <host>` will still be able to obtain them. 
 
-If you choose this option, consider [configuring your keychain to lock after a period of inactivity](https://support.apple.com/guide/keychain-access/mac-keychain-password-kyca1242/mac). You can also use a dedicated keychain, instead of the default _login_ keychain:
+If you choose this option, consider [configuring your keychain to lock after a period of inactivity](https://support.apple.com/guide/keychain-access/mac-keychain-password-kyca1242/mac). When your keychain is locked, you will be prompted for the _keychain_ password before an application can access its contents, even if that application is trusted by the item. You can also use a dedicated keychain, instead of the default _login_ keychain:
 
 ```hcl
 credentials_helper "keychain" {
