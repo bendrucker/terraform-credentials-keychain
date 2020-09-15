@@ -2,7 +2,7 @@
 on: [push, pull_request]
 name: tests
 jobs:
-  test:
+  macos:
     runs-on: macos-latest
     steps:
     - name: Install Go
@@ -11,5 +11,22 @@ jobs:
         go-version: 1.14.x
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Test
+      run: go test -v ./...
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.14.x
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Create keyring
+      # https://github.com/zalando/go-keyring/blob/6675570187178a8a2d025e6e00ea70a89ccc9578/.travis.yml
+      run: |-
+        apt-get update
+        apt-get install python-gnomekeyring gnome-keyring
+        dbus-launch /usr/bin/python -c "import gnomekeyring;gnomekeyring.create_sync('login', '');"
     - name: Test
       run: go test -v ./...
