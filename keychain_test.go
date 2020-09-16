@@ -34,3 +34,28 @@ func TestKeychain(t *testing.T) {
 		t.Fatalf("failed to forget: %v", err)
 	}
 }
+
+func TestKeychain_NotFound(t *testing.T) {
+	helper := &KeychainHelper{
+		Keychain: "test-terraform-credentials-keychain",
+		keyring: keyring.Config{
+			KeychainPasswordFunc: func(prompt string) (string, error) {
+				return "", nil
+			},
+		},
+	}
+
+	b, err := helper.Get("foo.terraform.io")
+	if err != nil {
+		t.Fatalf("failed to get: %v", err)
+	}
+
+	expected := `{}`
+	if got := string(b); got != expected {
+		t.Errorf("wrong credentials, expected %s, got %s", expected, got)
+	}
+
+	if err := helper.Forget("foo.terraform.io"); err == nil {
+		t.Fatalf("expected error when forgetting non-existent host")
+	}
+}
