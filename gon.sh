@@ -23,4 +23,4 @@ zip {
 }
 EOF
 
-gon "$config"
+gon -log-level=info -log-json "$config"
