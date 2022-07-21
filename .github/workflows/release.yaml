@@ -27,7 +27,7 @@ jobs:
       uses: goreleaser/goreleaser-action@v3.0.0
       with:
         version: latest
-        args: release --rm-dist
+        args: release --rm-dist --debug
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
