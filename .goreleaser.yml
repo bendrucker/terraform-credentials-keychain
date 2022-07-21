@@ -10,6 +10,7 @@ builds:
       - darwin
     goarch:
       - amd64
+      - arm64
     hooks:
       post: ./gon.sh {{.Path}} {{dir (dir .Path)}}/{{.ProjectName}}_{{.Version}}_{{.Target}}.zip
 archives:
@@ -22,4 +23,4 @@ release:
   ids:
     - default
   extra_files:
-    - glob: ./dist/*_darwin_amd64.zip
+    - glob: ./dist/*_darwin_*.zip
