@@ -1,6 +1,6 @@
 module github.com/bendrucker/terraform-credentials-keychain
 
-go 1.14
+go 1.18
 
 require (
 	github.com/99designs/keyring v1.1.6
