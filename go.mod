@@ -24,7 +24,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/posener/complete v1.1.1 // indirect
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
-	golang.org/x/sys v0.0.0-20200107162124-548cf772de50 // indirect
+	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
 )
 
 replace github.com/99designs/keyring => github.com/n11c/keyring v1.1.4-0.20200205101003-eb070b66369c
