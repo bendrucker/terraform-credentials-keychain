@@ -10,6 +10,7 @@ func TestKeychain(t *testing.T) {
 	helper := &KeychainHelper{
 		Keychain: "test-terraform-credentials-keychain",
 		keyring: keyring.Config{
+			KeychainTrustApplication: true,
 			KeychainPasswordFunc: func(prompt string) (string, error) {
 				return "", nil
 			},
@@ -39,6 +40,7 @@ func TestKeychain_NotFound(t *testing.T) {
 	helper := &KeychainHelper{
 		Keychain: "test-terraform-credentials-keychain",
 		keyring: keyring.Config{
+			KeychainTrustApplication: true,
 			KeychainPasswordFunc: func(prompt string) (string, error) {
 				return "", nil
 			},
