@@ -27,6 +27,14 @@ jobs:
     - name: Install keyring packages
       run: |
         sudo apt-get update
-        sudo apt-get install pass gnome-keyring dbus-x11
-    - name: Test
-      run: go test -v ./...
+        sudo apt-get install -y gnome-keyring dbus-x11 libsecret-1-dev
+    - name: Setup keyring directories
+      run: |
+        mkdir -p ~/.cache
+        mkdir -p ~/.local/share/keyrings
+        chmod 700 ~/.local
+    - name: Test with keyring
+      run: |
+        echo 'test-passphrase' | gnome-keyring-daemon --unlock
+        go test -v ./...
+      shell: dbus-run-session -- bash --noprofile --norc -eo pipefail {0}
