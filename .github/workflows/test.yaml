@@ -51,12 +51,9 @@ jobs:
         # Give the daemon time to initialize
         sleep 2
         
-        # Create a default keyring file if it doesn't exist
-        # The Go library expects a 'default' collection to exist
-        if [ ! -f ~/.local/share/keyrings/default.keyring ]; then
-          # Create empty keyring file that gnome-keyring will recognize
-          echo -n 'default' | gnome-keyring-daemon --unlock
-        fi
+        # Initialize the default collection by storing a dummy secret
+        # This ensures the default collection exists for the Go library
+        echo "dummy" | secret-tool store --label="Init" service init key value || true
         
         # Verify the setup works
         echo "test-secret" | secret-tool store --label="CI Test" service test username ci
