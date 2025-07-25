@@ -23,6 +23,8 @@ jobs:
       with:
         p12-file-base64: ${{ secrets.APPLE_DEVELOPER_CERTIFICATE }}
         p12-password: ${{ secrets.APPLE_DEVELOPER_CERTIFICATE_PASSWORD }}
+    - name: List signing identities
+      run: security find-identity -v -p codesigning
     - name: goreleaser
       uses: goreleaser/goreleaser-action@v6
       with:
