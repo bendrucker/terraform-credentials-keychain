@@ -1,3 +1,5 @@
+version: 2
+
 builds:
   - id: default
     goos:
@@ -14,11 +16,12 @@ builds:
     hooks:
       post: ./gon.sh {{.Path}} {{dir (dir .Path)}}/{{.ProjectName}}_{{.Version}}_{{.Target}}.zip
 archives:
-  - builds:
+  - ids:
       - default
     format_overrides:
       - goos: windows
-        format: zip
+        formats:
+          - zip
 release:
   ids:
     - default

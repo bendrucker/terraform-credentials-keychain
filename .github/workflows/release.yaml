@@ -24,10 +24,10 @@ jobs:
         p12-file-base64: ${{ secrets.APPLE_DEVELOPER_CERTIFICATE }}
         p12-password: ${{ secrets.APPLE_DEVELOPER_CERTIFICATE_PASSWORD }}
     - name: goreleaser
-      uses: goreleaser/goreleaser-action@v5.0.0
+      uses: goreleaser/goreleaser-action@v6
       with:
-        version: latest
-        args: release --rm-dist
+        version: "~> v2"
+        args: release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
