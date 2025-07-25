@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 
 	"github.com/99designs/keyring"
@@ -42,6 +43,10 @@ func (h *KeychainHelper) Get(hostname string) ([]byte, error) {
 
 	item, err := ring.Get(hostname)
 	if err != nil {
+		if errors.Is(err, keyring.ErrKeyNotFound) {
+			return []byte("{}"), nil
+		}
+
 		return nil, err
 	}
 

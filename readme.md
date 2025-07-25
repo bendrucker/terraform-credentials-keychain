@@ -1,4 +1,4 @@
-# terraform-credentials-keychain [![tests](https://github.com/bendrucker/terraform-credentials-keychain/workflows/tests/badge.svg?branch=master)](https://github.com/bendrucker/terraform-credentials-keychain/actions?query=workflow%3Atests)
+# terraform-credentials-keychain [![tests](https://github.com/bendrucker/terraform-credentials-keychain/actions/workflows/test.yaml/badge.svg?branch=master)](https://github.com/bendrucker/terraform-credentials-keychain/actions/workflows/test.yaml)
 
 > A Terraform [credentials helper](https://www.terraform.io/docs/commands/cli-config.html#credentials-helpers) that stores your credentials in the system keychain
 
@@ -13,7 +13,7 @@ Download an appropriate [release binary](https://github.com/bendrucker/terraform
 For example, on macOS, you should install the binary as:
 
 ```
-~/.terraform.d/plugins/darwin_amd64/terraform-credentials-keychain
+~/.terraform.d/plugins/darwin_arm64/terraform-credentials-keychain
 ```
 
 Releases for macOS are [signed and notarized](https://developer.apple.com/developer-id/) so that the system will trust the application.
