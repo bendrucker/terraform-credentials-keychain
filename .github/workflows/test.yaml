@@ -25,6 +25,8 @@ jobs:
       with:
         go-version-file: go.mod
     - name: Install keyring packages
-      run: sudo apt-get install pass gnome-keyring dbus-x11
+      run: |
+        sudo apt-get update
+        sudo apt-get install pass gnome-keyring dbus-x11
     - name: Test
       run: go test -v ./...
