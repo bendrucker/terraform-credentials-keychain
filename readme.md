@@ -1,4 +1,4 @@
-# terraform-credentials-keychain [![tests](https://github.com/bendrucker/terraform-credentials-keychain/workflows/tests/badge.svg?branch=master)](https://github.com/bendrucker/terraform-credentials-keychain/actions?query=workflow%3Atests)
+# terraform-credentials-keychain [![tests](https://github.com/bendrucker/terraform-credentials-keychain/actions/workflows/test.yaml/badge.svg?branch=master)](https://github.com/bendrucker/terraform-credentials-keychain/actions/workflows/test.yaml)
 
 > A Terraform [credentials helper](https://www.terraform.io/docs/commands/cli-config.html#credentials-helpers) that stores your credentials in the system keychain
 
