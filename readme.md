@@ -13,7 +13,7 @@ Download an appropriate [release binary](https://github.com/bendrucker/terraform
 For example, on macOS, you should install the binary as:
 
 ```
-~/.terraform.d/plugins/darwin_amd64/terraform-credentials-keychain
+~/.terraform.d/plugins/darwin_arm64/terraform-credentials-keychain
 ```
 
 Releases for macOS are [signed and notarized](https://developer.apple.com/developer-id/) so that the system will trust the application.
