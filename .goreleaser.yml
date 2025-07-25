@@ -13,17 +13,30 @@ builds:
     goarch:
       - amd64
       - arm64
-    hooks:
-      post: ./gon.sh {{.Path}} {{dir (dir .Path)}}/{{.ProjectName}}_{{.Version}}_{{.Target}}.zip
+
+notarize:
+  macos:
+    - enabled: true
+      ids:
+        - macos
+      sign:
+        certificate: "{{.Env.MACOS_CERTIFICATE}}"
+        password: "{{.Env.MACOS_CERTIFICATE_PWD}}"
+      notarize:
+        issuer_id: "{{.Env.MACOS_NOTARY_ISSUER_ID}}"
+        key_id: "{{.Env.MACOS_NOTARY_KEY_ID}}"
+        key: "{{.Env.MACOS_NOTARY_KEY}}"
+
 archives:
   - ids:
       - default
+      - macos
     format_overrides:
       - goos: windows
         formats:
           - zip
+
 release:
   ids:
     - default
-  extra_files:
-    - glob: ./dist/*_darwin_*.zip
+    - macos

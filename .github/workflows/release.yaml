@@ -14,15 +14,6 @@ jobs:
         go-version-file: go.mod
     - name: Unshallow
       run: git fetch --prune --unshallow
-    - name: Install gon
-      run: go install github.com/mitchellh/gon/cmd/gon@2d4f161
-    - name: Import certificates
-      uses: Apple-Actions/import-codesign-certs@v3
-      with:
-        p12-file-base64: ${{ secrets.APPLE_DEVELOPER_CERTIFICATE }}
-        p12-password: ${{ secrets.APPLE_DEVELOPER_CERTIFICATE_PASSWORD }}
-    - name: List signing identities
-      run: security find-identity -v -p codesigning
     - name: goreleaser
       uses: goreleaser/goreleaser-action@v6
       with:
@@ -30,4 +21,8 @@ jobs:
         args: release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
+        MACOS_CERTIFICATE: ${{ secrets.APPLE_DEVELOPER_CERTIFICATE }}
+        MACOS_CERTIFICATE_PWD: ${{ secrets.APPLE_DEVELOPER_CERTIFICATE_PASSWORD }}
+        MACOS_NOTARY_ISSUER_ID: ${{ vars.MACOS_NOTARY_ISSUER_ID }}
+        MACOS_NOTARY_KEY_ID: ${{ vars.MACOS_NOTARY_KEY_ID }}
+        MACOS_NOTARY_KEY: ${{ secrets.MACOS_NOTARY_KEY }}
