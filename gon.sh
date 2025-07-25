@@ -15,7 +15,7 @@ apple_id {
 }
 
 sign {
-  application_identity = "Ben Drucker"
+  application_identity = "Developer ID Application: Benjamin V Drucker (3GRE64PMBP)"
 }
 
 zip {
