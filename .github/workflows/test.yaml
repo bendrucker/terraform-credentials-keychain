@@ -24,9 +24,43 @@ jobs:
     - uses: actions/setup-go@v5
       with:
         go-version-file: go.mod
-    - name: Install keyring packages
+    - name: Setup Linux keyring environment
       run: |
+        # Install required packages
         sudo apt-get update
-        sudo apt-get install --no-install-recommends pass gnome-keyring dbus-x11
+        sudo apt-get install --no-install-recommends -y dbus-x11 gnome-keyring libsecret-tools
+        
+        # Remove capabilities that cause permission issues in CI
+        sudo setcap -r /usr/bin/gnome-keyring-daemon || true
+        
+        # Start D-Bus session and export environment variables
+        export $(dbus-launch --sh-syntax)
+        echo "DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS" >> $GITHUB_ENV
+        echo "DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID" >> $GITHUB_ENV
+        
+        # Create keyring directories if they don't exist
+        mkdir -p ~/.cache
+        mkdir -p ~/.local/share/keyrings
+        
+        # Initialize and unlock the keyring with empty password
+        echo '' | gnome-keyring-daemon --unlock --replace
+        
+        # Start the keyring daemon with secrets component
+        gnome-keyring-daemon --start --components=secrets &
+        
+        # Give the daemon time to initialize
+        sleep 2
+        
+        # Verify the setup works
+        echo "test-secret" | secret-tool store --label="CI Test" service test username ci
+        retrieved=$(secret-tool lookup service test username ci)
+        if [ "$retrieved" = "test-secret" ]; then
+          echo "✓ Keyring setup successful"
+        else
+          echo "✗ Keyring setup failed"
+          exit 1
+        fi
     - name: Test
       run: go test -v ./...
+      env:
+        DBUS_SESSION_BUS_ADDRESS: ${{ env.DBUS_SESSION_BUS_ADDRESS }}
