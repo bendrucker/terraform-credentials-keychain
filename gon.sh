@@ -12,6 +12,7 @@ bundle_id = "com.bendrucker.terraform-credentials-keychain"
 
 apple_id {
   username = "bvdrucker@gmail.com"
+  team_id = "3GRE64PMBP"
 }
 
 sign {
