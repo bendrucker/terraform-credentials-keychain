@@ -8,13 +8,24 @@ With this credential helper installed, your credentials will instead be stored i
 
 ## Installing
 
-Download an appropriate [release binary](https://github.com/bendrucker/terraform-credentials-keychain/releases) for your operating system/architecture. [Install it](https://www.terraform.io/docs/plugins/basics.html#installing-plugins) into the appropriate Terraform plugin directory. Credentials helpers are stored in the same directory as provider plugins.
+Credentials helpers go in the same directory as Terraform provider plugins, and that directory names an architecture. The binary you put there has to match it, or the exec fails with `bad CPU type in executable`.
 
-For example, on macOS, you should install the binary as:
+Deriving both the asset and the destination from `uname -m` keeps them in step. Set `version` to the [latest release](https://github.com/bendrucker/terraform-credentials-keychain/releases/latest):
 
+```sh
+version=0.2.2
+arch=$([ "$(uname -m)" = arm64 ] && echo arm64 || echo amd64)
+dir=~/.terraform.d/plugins/darwin_$arch
+
+mkdir -p "$dir"
+curl -fsSL "https://github.com/bendrucker/terraform-credentials-keychain/releases/download/v${version}/terraform-credentials-keychain_${version}_darwin_${arch}.tar.gz" \
+  | tar -xzC "$dir" terraform-credentials-keychain
+file "$dir/terraform-credentials-keychain"
 ```
-~/.terraform.d/plugins/darwin_arm64/terraform-credentials-keychain
-```
+
+The last line prints the architecture of what landed, which should match the directory it landed in.
+
+On other platforms, download the [release asset](https://github.com/bendrucker/terraform-credentials-keychain/releases) matching your OS and architecture, then install the binary as `~/.terraform.d/plugins/<os>_<arch>/terraform-credentials-keychain`.
 
 Releases for macOS are [signed and notarized](https://developer.apple.com/developer-id/) so that the system will trust the application.
 
