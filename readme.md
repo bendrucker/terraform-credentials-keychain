@@ -8,7 +8,7 @@ With this credential helper installed, your credentials will instead be stored i
 
 ## Installing
 
-Credentials helpers go in the same directory as Terraform provider plugins, and that directory names an architecture. The binary you put there has to match it. On Apple Silicon a mismatch used to work anyway, because Rosetta translated the `amd64` binary, but recent macOS versions drop Rosetta and the same mismatch now fails with `bad CPU type in executable`.
+Credentials helpers go in the same directory as Terraform provider plugins, and that directory names an architecture. The binary you put there has to match it, or the exec fails with `bad CPU type in executable`.
 
 Deriving both the asset and the destination from `uname -m` keeps them in step. Set `version` to the [latest release](https://github.com/bendrucker/terraform-credentials-keychain/releases/latest):
 
